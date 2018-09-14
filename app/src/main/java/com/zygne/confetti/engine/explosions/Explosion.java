@@ -137,7 +137,7 @@ public class Explosion implements RendableObject, UpdatableObject {
     private void reset() {
 
         for (int i = 0; i < this.particles.length; i++) {
-            particles[i].rest(x, y);
+            particles[i].reset(x, y);
         }
 
     }

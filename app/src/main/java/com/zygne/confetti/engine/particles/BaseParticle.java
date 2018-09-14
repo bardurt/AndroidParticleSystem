@@ -17,30 +17,32 @@ import com.zygne.confetti.engine.util.Randomizer;
  * @version 1.0 04/09/2018.
  */
 
-
 public abstract class BaseParticle implements RendableObject, UpdatableObject {
 
     public static final int STATE_ALIVE = 0;        // particle is alive
     public static final int STATE_DEAD = 1;         // particle is dead
 
-    public static final int DEFAULT_LIFETIME = 80;  // play with this
-    public static int MAX_DIMENSION = 8;            // the maximum width or height
+    public static final int DEFAULT_LIFETIME = 80;  // default lifetime for a particle
+    public static final int MAX_DIMENSION = 8;      // the maximum width or height
     public static final int MAX_SPEED = 8;          // maximum speed (per update)
+    public static final float DEFAULT_EXPANSION = 1.01f;
 
-    protected Paint paint;
-    protected int state;                              // particle is alive or dead
-    protected float width;                            // width of the particle
-    protected float height;                           // height of the particle
-    protected float x;                                // horizontal position
-    protected float y;                                // vertical position
+    protected float width;                          // width of the particle
+    protected float height;                         // height of the particle
+    protected float x;                              // horizontal position
+    protected float y;                              // vertical position
+    protected Paint paint;                          //
+    protected int state;                            // particle is alive or dead
+
     private float xv;                               // horizontal velocity
     private float yv;                               // vertical velocity
     private int age;                                // current age of the particle
     private int lifetime;                           // particle dies when it reaches this value
-    private int type = 0;
-    private float expansion = 1.01f;                // rate of expansion
-    protected int alpha = 255;
-    private int alphaRate = 2;
+    private float expansion;                        // rate of expansion
+    private int alpha = 255;                        // alpha value of color
+    private int alphaRate;                          // rate at which alpha value decreases
+    private boolean fadeAlpha = true;               // should alpha value be reduced
+    private boolean shouldExpand = true;
 
     public BaseParticle(float x, float y) {
         init(x, y);
@@ -62,7 +64,7 @@ public abstract class BaseParticle implements RendableObject, UpdatableObject {
         this.yv = (Randomizer.rndDbl(0, MAX_SPEED * 2) - MAX_SPEED);
         this.alpha = 255;
         this.alphaRate = (alpha + 5) / lifetime;
-        type = Randomizer.rndInt(0, 6);
+        this.expansion = DEFAULT_EXPANSION;
 
         // smoothing out the diagonal speed
         if (xv * xv + yv * yv > MAX_SPEED * MAX_SPEED) {
@@ -147,7 +149,6 @@ public abstract class BaseParticle implements RendableObject, UpdatableObject {
         this.expansion = expansion;
     }
 
-    // helper methods -------------------------
     public boolean isAlive() {
         return this.state == STATE_ALIVE;
     }
@@ -156,20 +157,18 @@ public abstract class BaseParticle implements RendableObject, UpdatableObject {
         return this.state == STATE_DEAD;
     }
 
-    public void rest(float x, float y) {
+    public void reset(float x, float y) {
         init(x, y);
     }
 
     @Override
     public void update(float dt) {
         if (this.state != STATE_DEAD) {
+
+            this.age++;
             this.x += this.xv;
             this.y += this.yv;
-
-            this.age++;                        // increase the age of the particle
-
             this.alpha -= alphaRate;
-
             this.width *= expansion;
             this.height *= expansion;
 
@@ -187,5 +186,6 @@ public abstract class BaseParticle implements RendableObject, UpdatableObject {
 
     @Override
     public void render(Canvas canvas) {
+        throw new RuntimeException("BaseParticle.render(Canvas canvas) should only be called by the child class!");
     }
 }

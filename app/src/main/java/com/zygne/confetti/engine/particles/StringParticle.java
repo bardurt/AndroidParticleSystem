@@ -1,7 +1,6 @@
 package com.zygne.confetti.engine.particles;
 
 import android.graphics.Canvas;
-import android.graphics.Path;
 
 /**
  * Created by Bardur Thomsen on 9/13/18.
