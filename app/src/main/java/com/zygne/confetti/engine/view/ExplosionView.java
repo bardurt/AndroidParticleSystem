@@ -43,7 +43,7 @@ public class ExplosionView extends View {
     }
 
     private void createExplosion(int x, int y){
-        explosion = new Explosion(80, x, y);
+        explosion = new Explosion(1000, x, y);
         this.set = true;
         invalidate();
     }

@@ -45,13 +45,12 @@ public abstract class BaseParticle implements RendableObject, UpdatableObject {
     private boolean shouldExpand = true;
 
     public BaseParticle(float x, float y) {
-        init(x, y);
-
         paint = new Paint();
         paint.setColor(Color.RED);
+        init(x, y);
     }
 
-    public void init(float x, float y) {
+    private void init(float x, float y) {
 
         this.x = x;
         this.y = y;
@@ -71,6 +70,8 @@ public abstract class BaseParticle implements RendableObject, UpdatableObject {
             xv *= 0.7;
             yv *= 0.7;
         }
+
+        randomizeColor();
     }
 
     public int getState() {
@@ -182,6 +183,12 @@ public abstract class BaseParticle implements RendableObject, UpdatableObject {
 
             paint.setAlpha(alpha);
         }
+    }
+
+    private void randomizeColor(){
+
+        paint.setARGB(255, Randomizer.rndInt(0,255), Randomizer.rndInt(0,255), Randomizer.rndInt(0,255));
+
     }
 
     @Override

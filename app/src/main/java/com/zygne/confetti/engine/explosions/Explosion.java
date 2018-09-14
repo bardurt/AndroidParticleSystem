@@ -32,22 +32,14 @@ public class Explosion implements RendableObject, UpdatableObject {
         this.particles = new BaseParticle[particleNr];
         this.x = x;
         this.y = y;
+
         for (int i = 0; i < this.particles.length; i++) {
 
-            int a = Randomizer.rndInt(0,2);
-
-            BaseParticle p;
-
-            if(a == 0){
-                p  = new CircularParticle(x, y);
-            } else if(a == 2) {
-                p  = new RectangularParticle(x, y);
-            } else {
-                p = new StringParticle(x, y);
-            }
+            BaseParticle p = new CircularParticle(x, y);
 
             this.particles[i] = p;
         }
+
         this.size = particleNr;
     }
 
