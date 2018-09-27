@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Create the SurfaceViewThread object.
-        final ExplosionSurface surfaceViewThread = new ExplosionSurface(getApplicationContext());
+        final ExplosionSurface surfaceViewThread = new ExplosionSurface(getApplicationContext(), 120);
 
         // Get text drawing LinearLayout canvas.
         LinearLayout container = findViewById(R.id.explosion_container);

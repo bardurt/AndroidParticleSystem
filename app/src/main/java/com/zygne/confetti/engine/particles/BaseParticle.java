@@ -5,8 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.zygne.confetti.engine.components.RendableObject;
-import com.zygne.confetti.engine.components.UpdatableObject;
+import com.zygne.confetti.engine.components.DynamicObject2d;
 import com.zygne.confetti.engine.util.Randomizer;
 
 
@@ -17,7 +16,7 @@ import com.zygne.confetti.engine.util.Randomizer;
  * @version 1.0 04/09/2018.
  */
 
-public abstract class BaseParticle implements RendableObject, UpdatableObject {
+public abstract class BaseParticle extends DynamicObject2d {
 
     public static final int STATE_ALIVE = 0;        // particle is alive
     public static final int STATE_DEAD = 1;         // particle is dead
@@ -27,10 +26,6 @@ public abstract class BaseParticle implements RendableObject, UpdatableObject {
     public static final int MAX_SPEED = 8;          // maximum speed (per update)
     public static final float DEFAULT_EXPANSION = 1.01f;
 
-    protected float width;                          // width of the particle
-    protected float height;                         // height of the particle
-    protected float x;                              // horizontal position
-    protected float y;                              // vertical position
     protected Paint paint;                          //
     protected int state;                            // particle is alive or dead
 
@@ -44,7 +39,8 @@ public abstract class BaseParticle implements RendableObject, UpdatableObject {
     private boolean fadeAlpha = true;               // should alpha value be reduced
     private boolean shouldExpand = true;
 
-    public BaseParticle(float x, float y) {
+    public BaseParticle(float x, float y, float width, float height) {
+        super(x, y, width, height);
         paint = new Paint();
         paint.setColor(Color.RED);
         init(x, y);
@@ -52,11 +48,10 @@ public abstract class BaseParticle implements RendableObject, UpdatableObject {
 
     private void init(float x, float y) {
 
-        this.x = x;
-        this.y = y;
+        this.position.set(x, y);
         this.state = BaseParticle.STATE_ALIVE;
-        this.width = Randomizer.rndInt(1, MAX_DIMENSION);
-        this.height = this.width;
+        int radius = Randomizer.rndInt(1, MAX_DIMENSION);
+        this.bounds.set(x, y, radius, radius);
         this.lifetime = DEFAULT_LIFETIME;
         this.age = 0;
         this.xv = (Randomizer.rndDbl(0, MAX_SPEED * 2) - MAX_SPEED);
@@ -80,38 +75,6 @@ public abstract class BaseParticle implements RendableObject, UpdatableObject {
 
     public void setState(int state) {
         this.state = state;
-    }
-
-    public float getWidth() {
-        return width;
-    }
-
-    public void setWidth(float width) {
-        this.width = width;
-    }
-
-    public float getHeight() {
-        return height;
-    }
-
-    public void setHeight(float height) {
-        this.height = height;
-    }
-
-    public float getX() {
-        return x;
-    }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
     }
 
     public float getXv() {
@@ -167,11 +130,9 @@ public abstract class BaseParticle implements RendableObject, UpdatableObject {
         if (this.state != STATE_DEAD) {
 
             this.age++;
-            this.x += this.xv;
-            this.y += this.yv;
+            this.position.add(-xv, -yv);
             this.alpha -= alphaRate;
-            this.width *= expansion;
-            this.height *= expansion;
+            this.bounds.multiply(expansion);
 
             if (this.age >= this.lifetime) {    // reached the end if its life
                 this.state = STATE_DEAD;
@@ -186,9 +147,7 @@ public abstract class BaseParticle implements RendableObject, UpdatableObject {
     }
 
     private void randomizeColor(){
-
         paint.setARGB(255, Randomizer.rndInt(0,255), Randomizer.rndInt(0,255), Randomizer.rndInt(0,255));
-
     }
 
     @Override

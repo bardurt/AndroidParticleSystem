@@ -6,9 +6,6 @@ import com.zygne.confetti.engine.components.RendableObject;
 import com.zygne.confetti.engine.components.UpdatableObject;
 import com.zygne.confetti.engine.particles.BaseParticle;
 import com.zygne.confetti.engine.particles.CircularParticle;
-import com.zygne.confetti.engine.particles.RectangularParticle;
-import com.zygne.confetti.engine.particles.StringParticle;
-import com.zygne.confetti.engine.util.Randomizer;
 
 /**
  * Created by Bardur Thomsen on 9/13/18.
@@ -35,7 +32,7 @@ public class Explosion implements RendableObject, UpdatableObject {
 
         for (int i = 0; i < this.particles.length; i++) {
 
-            BaseParticle p = new CircularParticle(x, y);
+            BaseParticle p = new CircularParticle(x, y, 0, 0);
 
             this.particles[i] = p;
         }
@@ -140,5 +137,10 @@ public class Explosion implements RendableObject, UpdatableObject {
         for (int i = 0; i < this.particles.length; i++) {
             this.particles[i].render(canvas);
         }
+    }
+
+    @Override
+    public String toString() {
+        return  "Explosion { x: " + this.x + ", y: " + this.y + ", particles: " + particles.length +" }";
     }
 }

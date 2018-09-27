@@ -3,7 +3,7 @@ package com.zygne.confetti.engine.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -14,22 +14,23 @@ import com.zygne.confetti.engine.explosions.Explosion;
  */
 public class ExplosionSurface extends SurfaceView implements SurfaceHolder.Callback, Runnable {
 
-    private SurfaceHolder surfaceHolder;
+    public static final String TAG = ExplosionSurface.class.getSimpleName();
 
-    private Paint paint = null;
+    public static final int DEFALUT_PARTICLE_NUMBER = 64;
+
+    private SurfaceHolder surfaceHolder;
 
     private Thread thread = null;
 
-    // Record whether the child thread is running or not.
     private boolean running = false;
 
     private int screenWidth = 0;
 
     private int screenHeight = 0;
 
-    private static String LOG_TAG = "SURFACE_VIEW_THREAD";
-
     private Explosion explosion;
+
+    private int particles;
 
     public ExplosionSurface(Context context) {
         super(context);
@@ -43,9 +44,30 @@ public class ExplosionSurface extends SurfaceView implements SurfaceHolder.Callb
         surfaceHolder.addCallback(this);
 
         // Set the SurfaceView object at the top of View object.
-        setZOrderOnTop(false);
+        setZOrderOnTop(true);
 
         setBackgroundColor(Color.TRANSPARENT);
+
+        particles = DEFALUT_PARTICLE_NUMBER;
+    }
+
+    public ExplosionSurface(Context context, int numberOfParticles) {
+        super(context);
+
+        setFocusable(true);
+
+        // Get SurfaceHolder object.
+        surfaceHolder = null;
+        surfaceHolder = this.getHolder();
+        // Add current object as the callback listener.
+        surfaceHolder.addCallback(this);
+
+        // Set the SurfaceView object at the top of View object.
+        setZOrderOnTop(true);
+
+        setBackgroundColor(Color.TRANSPARENT);
+
+        particles = numberOfParticles;
     }
 
     @Override
@@ -62,7 +84,9 @@ public class ExplosionSurface extends SurfaceView implements SurfaceHolder.Callb
         screenHeight = getHeight();
         screenWidth = getWidth();
 
-        explosion = new Explosion(20, screenWidth / 2, screenHeight / 2);
+        explosion = new Explosion(particles, screenWidth / 2, screenHeight / 2);
+
+        Log.d(TAG, explosion.toString());
     }
 
     @Override

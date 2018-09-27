@@ -7,15 +7,16 @@ import android.graphics.Canvas;
  */
 public class CircularParticle extends BaseParticle {
 
-    public CircularParticle(float x, float y) {
-        super(x, y);
+
+    public CircularParticle(float x, float y, float width, float height) {
+        super(x, y, width, height);
     }
 
     @Override
     public void render(Canvas canvas) {
 
         if(isAlive()) {
-            canvas.drawCircle(x, y, width, paint);
+            canvas.drawCircle(position.getX(), position.getY(), bounds.getWidth(), paint);
         }
     }
 }
