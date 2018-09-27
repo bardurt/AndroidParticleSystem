@@ -7,6 +7,9 @@ import android.graphics.Canvas;
  */
 public class CircularParticle extends BaseParticle {
 
+    public CircularParticle(float x, float y) {
+        super(x, y);
+    }
 
     public CircularParticle(float x, float y, float width, float height) {
         super(x, y, width, height);

@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.zygne.confetti.engine.components.DynamicObject2d;
+import com.zygne.confetti.engine.math.Rectangle;
+import com.zygne.confetti.engine.math.Vector2;
 import com.zygne.confetti.engine.util.Randomizer;
 
 
@@ -38,6 +40,14 @@ public abstract class BaseParticle extends DynamicObject2d {
     private int alphaRate;                          // rate at which alpha value decreases
     private boolean fadeAlpha = true;               // should alpha value be reduced
     private boolean shouldExpand = true;
+
+    public BaseParticle(){}
+
+    public BaseParticle(float x, float y){
+        this.position = new Vector2(x, y);
+        this.bounds = new Rectangle(x, y, 0, 0);
+        this.velocity = new Vector2();
+    }
 
     public BaseParticle(float x, float y, float width, float height) {
         super(x, y, width, height);

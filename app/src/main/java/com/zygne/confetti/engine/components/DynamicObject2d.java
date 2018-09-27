@@ -14,6 +14,8 @@ public abstract class DynamicObject2d implements RendableObject, UpdatableObject
     protected Rectangle bounds;
     protected Vector2 velocity;
 
+    public DynamicObject2d(){}
+
     public DynamicObject2d(float x, float y){
         this.position = new Vector2(x, y);
         this.bounds = new Rectangle(x, y, 0, 0);

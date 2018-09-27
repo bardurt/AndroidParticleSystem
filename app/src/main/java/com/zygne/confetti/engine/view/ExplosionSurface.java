@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.zygne.confetti.engine.explosions.BaseExplosion;
+import com.zygne.confetti.engine.explosions.Emitter;
 import com.zygne.confetti.engine.explosions.Explosion;
 
 /**
@@ -28,9 +30,9 @@ public class ExplosionSurface extends SurfaceView implements SurfaceHolder.Callb
 
     private int screenHeight = 0;
 
-    private Explosion explosion;
+    private BaseExplosion explosion;
 
-    private int particles;
+    private final int particles;
 
     public ExplosionSurface(Context context) {
         super(context);
@@ -84,7 +86,7 @@ public class ExplosionSurface extends SurfaceView implements SurfaceHolder.Callb
         screenHeight = getHeight();
         screenWidth = getWidth();
 
-        explosion = new Explosion(particles, screenWidth / 2, screenHeight / 2);
+        explosion = new Explosion(screenWidth / 2, screenHeight / 2, particles);
 
         Log.d(TAG, explosion.toString());
     }

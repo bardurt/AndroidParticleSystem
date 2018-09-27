@@ -5,8 +5,8 @@ package com.zygne.confetti.engine.math;
  */
 public class Vector2 {
 
-    private static float TO_RADIANS = (1 / 180.0f) * (float) Math.PI;
-    private static float TO_DEGREES = (1 / (float) Math.PI) * 180;
+    private static final float TO_RADIANS = (1 / 180.0f) * (float) Math.PI;
+    private static final float TO_DEGREES = (1 / (float) Math.PI) * 180;
     private float x;
     private float y;
 

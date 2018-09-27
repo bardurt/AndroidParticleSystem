@@ -7,7 +7,7 @@ public class Circle {
 
     private final Vector2 center;
 
-    private float radius;
+    private final float radius;
 
     public Circle(float x, float y, float radius) {
         this.center = new Vector2(x, y);
