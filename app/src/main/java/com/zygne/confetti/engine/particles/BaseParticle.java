@@ -31,8 +31,6 @@ public abstract class BaseParticle extends DynamicObject2d {
     protected Paint paint;                          //
     protected int state;                            // particle is alive or dead
 
-    private float xv;                               // horizontal velocity
-    private float yv;                               // vertical velocity
     private int age;                                // current age of the particle
     private int lifetime;                           // particle dies when it reaches this value
     private float expansion;                        // rate of expansion
@@ -47,12 +45,14 @@ public abstract class BaseParticle extends DynamicObject2d {
         this.position = new Vector2(x, y);
         this.bounds = new Rectangle(x, y, 0, 0);
         this.velocity = new Vector2();
+        paint = new Paint();
+        paint.setColor(Color.RED);
+        init(x, y);
     }
 
     public BaseParticle(float x, float y, float width, float height) {
         super(x, y, width, height);
-        paint = new Paint();
-        paint.setColor(Color.RED);
+
         init(x, y);
     }
 
@@ -64,16 +64,16 @@ public abstract class BaseParticle extends DynamicObject2d {
         this.bounds.set(x, y, radius, radius);
         this.lifetime = DEFAULT_LIFETIME;
         this.age = 0;
-        this.xv = (Randomizer.rndDbl(0, MAX_SPEED * 2) - MAX_SPEED);
-        this.yv = (Randomizer.rndDbl(0, MAX_SPEED * 2) - MAX_SPEED);
+
+        this.velocity = new Vector2((Randomizer.rndDbl(0, MAX_SPEED * 2) - MAX_SPEED),
+                (Randomizer.rndDbl(0, MAX_SPEED * 2) - MAX_SPEED));
         this.alpha = 255;
         this.alphaRate = (alpha + 5) / lifetime;
         this.expansion = DEFAULT_EXPANSION;
 
         // smoothing out the diagonal speed
-        if (xv * xv + yv * yv > MAX_SPEED * MAX_SPEED) {
-            xv *= 0.7;
-            yv *= 0.7;
+        if (velocity.distSquared(0, 0) > MAX_SPEED * MAX_SPEED) {
+            velocity.multiply(0.7f);
         }
 
         randomizeColor();
@@ -85,22 +85,6 @@ public abstract class BaseParticle extends DynamicObject2d {
 
     public void setState(int state) {
         this.state = state;
-    }
-
-    public float getXv() {
-        return xv;
-    }
-
-    public void setXv(float xv) {
-        this.xv = xv;
-    }
-
-    public float getYv() {
-        return yv;
-    }
-
-    public void setYv(float yv) {
-        this.yv = yv;
     }
 
     public int getAge() {
@@ -140,7 +124,7 @@ public abstract class BaseParticle extends DynamicObject2d {
         if (this.state != STATE_DEAD) {
 
             this.age++;
-            this.position.add(-xv, -yv);
+            this.position.sub(velocity);
             this.alpha -= alphaRate;
             this.bounds.multiply(expansion);
 

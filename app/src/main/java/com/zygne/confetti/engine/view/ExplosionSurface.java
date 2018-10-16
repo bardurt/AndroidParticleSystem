@@ -86,7 +86,7 @@ public class ExplosionSurface extends SurfaceView implements SurfaceHolder.Callb
         screenHeight = getHeight();
         screenWidth = getWidth();
 
-        explosion = new Explosion(screenWidth / 2, screenHeight / 2, particles);
+        explosion = new Emitter(screenWidth / 2, screenHeight / 2, particles);
 
         Log.d(TAG, explosion.toString());
     }

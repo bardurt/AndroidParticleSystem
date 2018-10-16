@@ -9,7 +9,6 @@ import com.zygne.confetti.engine.particles.CircularParticle;
  * Created by Bardur Thomsen on 9/27/18.
  */
 
-// TODO: 9/27/18 finish emitter
 public class Emitter extends BaseExplosion {
 
     private static final String TAG = Emitter.class.getSimpleName();
@@ -17,7 +16,6 @@ public class Emitter extends BaseExplosion {
     private final int minSize = 10;
     private int maxSize = 100;
 
-    int lastUpdate = 0;
     private int size;
 
     public Emitter(float x, float y, int particleNr) {
@@ -46,26 +44,13 @@ public class Emitter extends BaseExplosion {
 
         createNewParticle();
 
-        if (this.state != STATE_DEAD) {
-            boolean isDead = true;
-            for (BaseParticle particle : this.particles) {
-                if (particle.isAlive()) {
-                    particle.update(deltaTime);
-                    isDead = false;
-                }
-            }
-            if (isDead) {
-                reset();
+        for (int i = 0; i < size; i++) {
+            if (this.particles[i].isAlive()) {
+                this.particles[i].update(deltaTime);
+            } else {
+                this.particles[i].reset(position.getX(), position.getY());
             }
         }
-    }
-
-    private void reset() {
-
-        for (BaseParticle particle : this.particles) {
-            particle.reset(position.getX(), position.getY());
-        }
-
     }
 
     @Override
@@ -77,9 +62,7 @@ public class Emitter extends BaseExplosion {
     }
 
     private void createNewParticle(){
-
         if(size < maxSize) {
-
             for(int i = 0; i < 5; i++) {
                 if(size < maxSize) {
                     BaseParticle p = new CircularParticle(position.getX(), position.getY());
