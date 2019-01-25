@@ -2,7 +2,7 @@ package com.zygne.confetti.engine.components;
 
 import android.graphics.Canvas;
 
-import com.zygne.confetti.engine.math.Rectangle;
+import com.zygne.confetti.engine.math.Rectangle;;
 import com.zygne.confetti.engine.math.Vector2;
 
 /**

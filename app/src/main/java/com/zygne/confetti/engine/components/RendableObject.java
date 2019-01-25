@@ -7,6 +7,5 @@ import android.graphics.Canvas;
  */
 public interface RendableObject {
 
-
     void render(Canvas canvas);
 }
