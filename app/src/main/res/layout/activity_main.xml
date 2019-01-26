@@ -27,8 +27,7 @@
             android:textSize="32sp"
             android:textStyle="bold"
             android:text="Explosion"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerInParent="true" />
 
     </RelativeLayout>
 

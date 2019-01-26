@@ -5,27 +5,31 @@ import com.zygne.confetti.engine.particles.BaseParticle;
 
 public class Physics {
 
-    private float windSpeed;
-    private int windDirection;
-    private float hForce;
+    private float wind;
     private float gravity;
+    private float drag;
 
     public Physics(){
-        this.windSpeed = 1;
-        this.windDirection = 1;
-        this.gravity = 1;
-        hForce = (windSpeed * windDirection);
+        this.wind = 0;
+        this.gravity = 0;
+        this.drag = 1;
     }
 
-    public Physics(float windSpeed, int windDirection, float gravity) {
-        this.windSpeed = windSpeed;
-        this.windDirection = windDirection;
+    public Physics(float wind, float gravity, float drag) {
+        this.wind = wind;
         this.gravity = gravity;
-        hForce = (windSpeed * windDirection);
+
+        if(drag >= 1){
+            this.drag = drag;
+        }
+
+        this.drag = 1 / this.drag;
     }
 
     public void update(DynamicObject2d object2d){
 
-        object2d.getVelocity().add(hForce, 0);
+        object2d.getVelocity().add(wind, 0);
+        object2d.getVelocity().add(0, gravity);
+        object2d.getVelocity().multiply(drag);
     }
 }
