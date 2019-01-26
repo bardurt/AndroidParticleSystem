@@ -2,6 +2,7 @@ package com.zygne.confetti.engine.explosions;
 
 import com.zygne.confetti.engine.components.DynamicObject2d;
 import com.zygne.confetti.engine.particles.BaseParticle;
+import com.zygne.confetti.engine.physics.Physics;
 
 /**
  * Created by Bardur Thomsen on 9/27/18.
@@ -16,10 +17,12 @@ public abstract class BaseExplosion extends DynamicObject2d {
     protected float gravity;                    // the gravity of the explosion (+ upward, - down)
     protected float wind;                       // speed of wind on horizontal
     protected BaseParticle[] particles;         // particles in the explosion
+    protected Physics physics;
 
     public BaseExplosion(float x, float y, int particleNr) {
         super(x, y);
         this.numberOfParticles = particleNr;
+        this.physics = new Physics();
     }
 
     @Override
@@ -50,5 +53,9 @@ public abstract class BaseExplosion extends DynamicObject2d {
 
     public boolean isDead() {
         return this.state == STATE_DEAD;
+    }
+
+    public void setPhysics(Physics physics) {
+        this.physics = physics;
     }
 }

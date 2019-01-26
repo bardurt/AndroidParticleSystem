@@ -46,6 +46,7 @@ public class Emitter extends BaseExplosion {
 
         for (int i = 0; i < size; i++) {
             if (this.particles[i].isAlive()) {
+                this.physics.update(this.particles[i]);
                 this.particles[i].update(deltaTime);
             } else {
                 this.particles[i].reset(position.getX(), position.getY());

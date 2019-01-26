@@ -10,6 +10,7 @@ import android.view.SurfaceView;
 import com.zygne.confetti.engine.explosions.BaseExplosion;
 import com.zygne.confetti.engine.explosions.Emitter;
 import com.zygne.confetti.engine.explosions.Explosion;
+import com.zygne.confetti.engine.physics.Physics;
 
 /**
  * Created by Bardur Thomsen on 9/17/18.
@@ -87,6 +88,7 @@ public class ExplosionSurface extends SurfaceView implements SurfaceHolder.Callb
         screenWidth = getWidth();
 
         explosion = new Emitter(screenWidth / 2, screenHeight / 2, particles);
+        explosion.setPhysics(new Physics(0.22f, 1, 0f));
 
         Log.d(TAG, explosion.toString());
     }
