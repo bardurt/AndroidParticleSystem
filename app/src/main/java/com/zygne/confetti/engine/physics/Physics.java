@@ -26,6 +26,34 @@ public class Physics {
         this.drag = 1 / this.drag;
     }
 
+    public float getWind() {
+        return wind;
+    }
+
+    public void setWind(float wind) {
+        this.wind = wind;
+    }
+
+    public float getGravity() {
+        return gravity;
+    }
+
+    public void setGravity(float gravity) {
+        this.gravity = gravity;
+    }
+
+    public float getDrag() {
+        return drag;
+    }
+
+    public void setDrag(float drag) {
+        if(drag >= 1){
+            this.drag = drag;
+        }
+
+        this.drag = 1 / this.drag;
+    }
+
     public void update(DynamicObject2d object2d){
 
         object2d.getVelocity().add(wind, 0);

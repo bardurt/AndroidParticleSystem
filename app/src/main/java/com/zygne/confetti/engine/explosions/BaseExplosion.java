@@ -58,4 +58,8 @@ public abstract class BaseExplosion extends DynamicObject2d {
     public void setPhysics(Physics physics) {
         this.physics = physics;
     }
+
+    public Physics getPhysics() {
+        return physics;
+    }
 }
