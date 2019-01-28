@@ -11,6 +11,7 @@ import com.zygne.confetti.engine.explosions.BaseExplosion;
 import com.zygne.confetti.engine.explosions.Emitter;
 import com.zygne.confetti.engine.explosions.Explosion;
 import com.zygne.confetti.engine.physics.Physics;
+import com.zygne.confetti.engine.util.FpsCounter;
 
 /**
  * Created by Bardur Thomsen on 9/17/18.
@@ -21,19 +22,17 @@ public class ExplosionSurface extends SurfaceView implements SurfaceHolder.Callb
 
     public static final int DEFALUT_PARTICLE_NUMBER = 64;
 
+    public Callback callback;
     private SurfaceHolder surfaceHolder;
-
     private Thread thread = null;
-
     private boolean running = false;
-
     private int screenWidth = 0;
-
     private int screenHeight = 0;
-
     private BaseExplosion explosion;
+    private int particles;
+    private FpsCounter fpsCounter = new FpsCounter();
+    private int timeToNotify;
 
-    private final int particles;
 
     public ExplosionSurface(Context context) {
         super(context);
@@ -52,6 +51,7 @@ public class ExplosionSurface extends SurfaceView implements SurfaceHolder.Callb
         setBackgroundColor(Color.TRANSPARENT);
 
         particles = DEFALUT_PARTICLE_NUMBER;
+
     }
 
     public ExplosionSurface(Context context, int numberOfParticles) {
@@ -126,7 +126,26 @@ public class ExplosionSurface extends SurfaceView implements SurfaceHolder.Callb
                     this.surfaceHolder.unlockCanvasAndPost(canvas);
                 }
             }
+
+            fpsCounter.countFrames();
+            timeToNotify++;
+
+            if(timeToNotify > 200){
+                if(callback != null){
+                    callback.onFpsUpdate(fpsCounter.getFps());
+                }
+            }
         }
+    }
+
+    public void setCallback(Callback callback){
+        this.callback = callback;
+    }
+
+    public void resetExplosion(int particles){
+        this.particles = particles;
+        explosion = new Emitter(screenWidth / 2, screenHeight / 2, particles);
+        explosion.setPhysics(new Physics(0f, 0f, 1f));
     }
 
     public void updateWind(float wind){
@@ -136,4 +155,9 @@ public class ExplosionSurface extends SurfaceView implements SurfaceHolder.Callb
     public void updateGravity(float gravity){
         explosion.getPhysics().setGravity(gravity);
     }
+
+    public interface Callback{
+        void onFpsUpdate(int fps);
+    }
+
 }
