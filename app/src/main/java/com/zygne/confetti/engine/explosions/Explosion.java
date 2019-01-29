@@ -20,7 +20,7 @@ public class Explosion extends BaseExplosion {
 
         for (int i = 0; i < this.particles.length; i++) {
 
-            BaseParticle p = new CircularParticle(x, y, 0, 0);
+            BaseParticle p = new CircularParticle(x, y);
 
             this.particles[i] = p;
         }
@@ -32,24 +32,15 @@ public class Explosion extends BaseExplosion {
             boolean isDead = true;
             for (BaseParticle particle : this.particles) {
                 if (particle.isAlive()) {
+                    this.physics.update(particle);
                     particle.update(deltaTime);
                     isDead = false;
                 }
             }
-            if (isDead) {
-                //this.state = STATE_DEAD;
-                reset();
+            if(isDead){
+                this.state = STATE_DEAD;
             }
-
         }
-    }
-
-    private void reset() {
-
-        for (BaseParticle particle : this.particles) {
-            particle.reset(position.getX(), position.getY());
-        }
-
     }
 
     @Override

@@ -87,7 +87,7 @@ public class ExplosionSurface extends SurfaceView implements SurfaceHolder.Callb
         screenHeight = getHeight();
         screenWidth = getWidth();
 
-        explosion = new Emitter(screenWidth / 2, screenHeight / 2, particles);
+        explosion = new Explosion(screenWidth / 2, screenHeight / 2, particles);
         explosion.setPhysics(new Physics(0f, 0f, 1f));
 
         Log.d(TAG, explosion.toString());
@@ -144,7 +144,7 @@ public class ExplosionSurface extends SurfaceView implements SurfaceHolder.Callb
 
     public void resetExplosion(int particles){
         this.particles = particles;
-        explosion = new Emitter(screenWidth / 2, screenHeight / 2, particles);
+        explosion = new Explosion(screenWidth / 2, screenHeight / 2, particles);
         explosion.setPhysics(new Physics(0f, 0f, 1f));
     }
 
