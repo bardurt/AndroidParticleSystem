@@ -148,6 +148,18 @@ public class ExplosionSurface extends SurfaceView implements SurfaceHolder.Callb
         explosion.setPhysics(new Physics(0f, 0f, 1f));
     }
 
+    public void resetExplosion(int particles, int type){
+        this.particles = particles;
+
+        if(type == 1) {
+            explosion = new Explosion(screenWidth / 2, screenHeight / 2, particles);
+        } else {
+            explosion = new Emitter(screenWidth / 2, screenHeight / 2, particles);
+        }
+
+        explosion.setPhysics(new Physics(0f, 0f, 1f));
+    }
+
     public void updateWind(float wind){
         explosion.getPhysics().setWind(wind);
     }

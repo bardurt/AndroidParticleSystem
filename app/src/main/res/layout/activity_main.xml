@@ -52,6 +52,26 @@
         android:layout_height="wrap_content"
         android:text=""/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_explosion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Explosion"/>
+
+        <Button
+            android:id="@+id/btn_emitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Emitter"/>
+
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -64,7 +84,6 @@
             android:orientation="vertical"/>
 
     </RelativeLayout>
-
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -83,7 +102,5 @@
             android:text=""/>
 
     </LinearLayout>
-
-
 
 </LinearLayout>
