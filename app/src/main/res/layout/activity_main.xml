@@ -34,9 +34,48 @@
         android:max="100"
         android:progress="50"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Particles"/>
+
+    <SeekBar
+        android:id="@+id/sb_particles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="10000"
+        android:progress="200"/>
+
+    <TextView
+        android:id="@+id/tv_particle_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_explosion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Explosion"/>
+
+        <Button
+            android:id="@+id/btn_emitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Emitter"/>
+
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:id="@+id/explosion_container"
@@ -46,5 +85,22 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FPS: "/>
+
+        <TextView
+            android:id="@+id/tv_fps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""/>
+
+    </LinearLayout>
 
 </LinearLayout>

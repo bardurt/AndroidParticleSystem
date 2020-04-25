@@ -90,7 +90,7 @@ abstract class BaseParticle : DynamicObject2d {
     }
 
     private fun randomizeColor() {
-        paint!!.setARGB(255, Randomizer.rndInt(0, 255), Randomizer.rndInt(0, 255), Randomizer.rndInt(0, 255))
+        paint?.setARGB(255, Randomizer.rndInt(0, 255), Randomizer.rndInt(0, 255), Randomizer.rndInt(0, 255))
     }
 
     override fun render(canvas: Canvas) {

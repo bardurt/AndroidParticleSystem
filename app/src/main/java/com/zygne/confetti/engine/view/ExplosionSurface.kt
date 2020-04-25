@@ -9,20 +9,25 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import com.zygne.confetti.engine.explosions.BaseExplosion
 import com.zygne.confetti.engine.explosions.Emitter
+import com.zygne.confetti.engine.explosions.Explosion
 import com.zygne.confetti.engine.physics.Physics
+import com.zygne.confetti.engine.util.FpsCounter
 import com.zygne.confetti.engine.view.ExplosionSurface
 
 /**
  * Created by Bardur Thomsen on 9/17/18.
  */
 class ExplosionSurface : SurfaceView, SurfaceHolder.Callback, Runnable {
+    private var callback: Callback? = null
     private var surfaceHolder: SurfaceHolder?
     private var thread: Thread? = null
     private var running = false
     private var screenWidth = 0
     private var screenHeight = 0
     private var explosion: BaseExplosion? = null
-    private val particles: Int
+    private var particles: Int
+    private val fpsCounter = FpsCounter()
+    private var timeToNotify = 0
 
     constructor(context: Context?) : super(context) {
         isFocusable = true
@@ -34,7 +39,7 @@ class ExplosionSurface : SurfaceView, SurfaceHolder.Callback, Runnable {
         // Set the SurfaceView object at the top of View object.
         setZOrderOnTop(true)
         setBackgroundColor(Color.TRANSPARENT)
-        particles = DEFALUT_PARTICLE_NUMBER
+        particles = DEFAULT_PARTICLE_NUMBER
     }
 
     constructor(context: Context?, numberOfParticles: Int) : super(context) {
@@ -59,7 +64,7 @@ class ExplosionSurface : SurfaceView, SurfaceHolder.Callback, Runnable {
         // Get screen width and height.
         screenHeight = height
         screenWidth = width
-        explosion = Emitter((screenWidth / 2).toFloat(), (screenHeight / 2).toFloat(), particles)
+        explosion = Explosion((screenWidth / 2).toFloat(), (screenHeight / 2).toFloat(), particles)
         explosion!!.physics = Physics(0f, 0f, 1f)
         Log.d(TAG, explosion.toString())
     }
@@ -84,7 +89,34 @@ class ExplosionSurface : SurfaceView, SurfaceHolder.Callback, Runnable {
                     surfaceHolder!!.unlockCanvasAndPost(canvas)
                 }
             }
+            fpsCounter.countFrames()
+            timeToNotify++
+            if (timeToNotify > 200) {
+                if (callback != null) {
+                    callback!!.onFpsUpdate(fpsCounter.fps)
+                }
+            }
         }
+    }
+
+    fun setCallback(callback: Callback?) {
+        this.callback = callback
+    }
+
+    fun resetExplosion(particles: Int) {
+        this.particles = particles
+        explosion = Explosion((screenWidth / 2).toFloat(), (screenHeight / 2).toFloat(), particles)
+        explosion!!.physics = Physics(0f, 0f, 1f)
+    }
+
+    fun resetExplosion(particles: Int, type: Int) {
+        this.particles = particles
+        explosion = if (type == 1) {
+            Explosion((screenWidth / 2).toFloat(), (screenHeight / 2).toFloat(), particles)
+        } else {
+            Emitter((screenWidth / 2).toFloat(), (screenHeight / 2).toFloat(), particles)
+        }
+        explosion!!.physics = Physics(0f, 0f, 1f)
     }
 
     fun updateWind(wind: Float) {
@@ -95,8 +127,12 @@ class ExplosionSurface : SurfaceView, SurfaceHolder.Callback, Runnable {
         explosion!!.physics.gravity = gravity
     }
 
+    interface Callback {
+        fun onFpsUpdate(fps: Int)
+    }
+
     companion object {
         val TAG = ExplosionSurface::class.java.simpleName
-        const val DEFALUT_PARTICLE_NUMBER = 64
+        const val DEFAULT_PARTICLE_NUMBER = 64
     }
 }
