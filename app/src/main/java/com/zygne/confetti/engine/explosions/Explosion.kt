@@ -1,6 +1,7 @@
 package com.zygne.confetti.engine.explosions
 
 import android.graphics.Canvas
+import com.zygne.confetti.engine.components.DynamicObject2d
 import com.zygne.confetti.engine.particles.BaseParticle
 import com.zygne.confetti.engine.particles.CircularParticle
 
@@ -11,6 +12,7 @@ class Explosion(x: Float, y: Float, particleNr: Int) : BaseExplosion(x, y, parti
             var isDead = true
             for (particle in particles) {
                 if (particle!!.isAlive) {
+                    physics.update(particle as DynamicObject2d)
                     particle.update(deltaTime)
                     isDead = false
                 }

@@ -1,5 +1,10 @@
 package com.zygne.confetti.engine.math
 
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
+
 class Vector2 {
     var x = 0f
         private set
@@ -64,7 +69,7 @@ class Vector2 {
     }
 
     fun len(): Float {
-        return Math.sqrt(x * x + y * y.toDouble()).toFloat()
+        return sqrt(x * x + y * y.toDouble()).toFloat()
     }
 
     fun nor(): Vector2 {
@@ -77,15 +82,15 @@ class Vector2 {
     }
 
     fun angle(): Float {
-        var angle = Math.atan2(y.toDouble(), x.toDouble()).toFloat() * TO_DEGREES
+        var angle = atan2(y.toDouble(), x.toDouble()).toFloat() * TO_DEGREES
         if (angle < 0) angle += 360f
         return angle
     }
 
     fun rotate(angle: Float): Vector2 {
         val rad = angle * TO_RADIANS
-        val cos = Math.cos(rad.toDouble()).toFloat()
-        val sin = Math.sin(rad.toDouble()).toFloat()
+        val cos = cos(rad.toDouble()).toFloat()
+        val sin = sin(rad.toDouble()).toFloat()
         val newX = x * cos - y * sin
         val newY = x * sin + y * cos
         x = newX
@@ -96,13 +101,13 @@ class Vector2 {
     fun dist(other: Vector2): Float {
         val distX = x - other.x
         val distY = y - other.y
-        return Math.sqrt(distX * distX + distY * distY.toDouble()).toFloat()
+        return sqrt(distX * distX + distY * distY.toDouble()).toFloat()
     }
 
     fun dist(x: Float, y: Float): Float {
         val distX = this.x - x
         val distY = this.y - y
-        return Math.sqrt(distX * distX + distY * distY.toDouble()).toFloat()
+        return sqrt(distX * distX + distY * distY.toDouble()).toFloat()
     }
 
     fun distSquared(other: Vector2): Float {

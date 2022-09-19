@@ -37,12 +37,12 @@ abstract class BaseParticle : DynamicObject2d {
     private fun init(x: Float, y: Float) {
         position!![x] = y
         state = STATE_ALIVE
-        val radius = Randomizer.rndInt(1, MAX_DIMENSION)
+        val radius = Randomizer.roundInteger(1, MAX_DIMENSION)
         bounds!![x, y, radius.toFloat()] = radius.toFloat()
         lifetime = DEFAULT_LIFETIME
         age = 0
-        velocity = Vector2(Randomizer.rndDbl(0f, MAX_SPEED * 2.toFloat()) - MAX_SPEED,
-                Randomizer.rndDbl(0f, MAX_SPEED * 2.toFloat()) - MAX_SPEED)
+        velocity = Vector2(Randomizer.roundDouble(0f, MAX_SPEED * 2.toFloat()) - MAX_SPEED,
+                Randomizer.roundDouble(0f, MAX_SPEED * 2.toFloat()) - MAX_SPEED)
         alpha = 255
         alphaRate = ((alpha + 5) / lifetime).toInt()
         expansion = DEFAULT_EXPANSION
@@ -84,7 +84,7 @@ abstract class BaseParticle : DynamicObject2d {
     }
 
     private fun randomizeColor() {
-        paint?.setARGB(255, Randomizer.rndInt(0, 255), Randomizer.rndInt(0, 255), Randomizer.rndInt(0, 255))
+        paint?.setARGB(255, Randomizer.roundInteger(0, 255), Randomizer.roundInteger(0, 255), Randomizer.roundInteger(0, 255))
     }
 
     override fun render(canvas: Canvas) {

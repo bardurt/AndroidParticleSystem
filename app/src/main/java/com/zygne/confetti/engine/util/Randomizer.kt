@@ -1,13 +1,11 @@
-package com.zygne.confetti.engine.util;
+package com.zygne.confetti.engine.util
 
-public class Randomizer {
-
-    // Return an integer that ranges from min inclusive to max inclusive.
-    public static int rndInt(int min, int max) {
-        return (int) (min + Math.random() * (max - min + 1));
+object Randomizer {
+    fun roundInteger(min: Int, max: Int): Int {
+        return (min + Math.random() * (max - min + 1)).toInt()
     }
 
-    public static float rndDbl(float min, float max) {
-        return (float) (min + (max - min) * Math.random());
+    fun roundDouble(min: Float, max: Float): Float {
+        return (min + (max - min) * Math.random()).toFloat()
     }
 }

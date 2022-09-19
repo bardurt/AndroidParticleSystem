@@ -70,6 +70,8 @@ class MainActivity : AppCompatActivity(), ExplosionSurface.Callback {
                 particles,
                 0
             )
+            explosionSurface!!.updateGravity(this.gravity)
+            explosionSurface!!.updateWind(this.wind)
         }
         btnExplosion = findViewById(R.id.btn_explosion)
         btnExplosion.setOnClickListener {
@@ -77,6 +79,8 @@ class MainActivity : AppCompatActivity(), ExplosionSurface.Callback {
                 particles,
                 1
             )
+            explosionSurface!!.updateGravity(this.gravity)
+            explosionSurface!!.updateWind(this.wind)
         }
     }
 
