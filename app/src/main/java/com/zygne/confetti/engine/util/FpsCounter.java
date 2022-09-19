@@ -1,11 +1,7 @@
 package com.zygne.confetti.engine.util;
 
-import android.telecom.Call;
 import android.util.Log;
 
-/**
- * Created by Bardur Thomsen on 1/28/19.
- */
 public class FpsCounter {
 
     private static final String TAG = FpsCounter.class.getSimpleName();
@@ -16,13 +12,8 @@ public class FpsCounter {
 
     public void countFrames(){
         long now = System.currentTimeMillis();
-
-        // perform other operations
-
         System.out.println("FPS:" + fps);
-
         ifps++;
-
         if(now > (mLastTime + 1000)) {
             mLastTime = now;
             fps = ifps;

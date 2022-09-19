@@ -5,9 +5,6 @@ import com.zygne.confetti.engine.components.DynamicObject2d
 import com.zygne.confetti.engine.particles.BaseParticle
 import com.zygne.confetti.engine.particles.CircularParticle
 
-/**
- * Created by Bardur Thomsen on 9/27/18.
- */
 class Emitter(x: Float, y: Float, var particleNr: Int) : BaseExplosion(x, y, particleNr) {
     private val minSize = 10
     private var maxSize = 100

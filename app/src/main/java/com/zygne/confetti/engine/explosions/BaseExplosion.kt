@@ -4,9 +4,6 @@ import com.zygne.confetti.engine.components.DynamicObject2d
 import com.zygne.confetti.engine.particles.BaseParticle
 import com.zygne.confetti.engine.physics.Physics
 
-/**
- * Created by Bardur Thomsen on 9/27/18.
- */
 abstract class BaseExplosion(x: Float, y: Float, protected val numberOfParticles: Int) : DynamicObject2d(x, y) {
 
     @JvmField

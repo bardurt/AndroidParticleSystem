@@ -4,9 +4,6 @@ import android.graphics.Canvas
 import com.zygne.confetti.engine.math.Rectangle
 import com.zygne.confetti.engine.math.Vector2
 
-/**
- * Created by Bardur Thomsen on 9/27/18.
- */
 abstract class DynamicObject2d : RendableObject, UpdatableObject {
     var position: Vector2? = null
     var bounds: Rectangle? = null

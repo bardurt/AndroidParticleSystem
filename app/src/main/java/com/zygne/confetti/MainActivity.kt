@@ -1,140 +1,102 @@
-package com.zygne.confetti;
+package com.zygne.confetti
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import android.support.v7.app.AppCompatActivity
+import com.zygne.confetti.engine.view.ExplosionSurface
+import android.widget.SeekBar
+import android.widget.TextView
+import android.os.Bundle
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.SeekBar.OnSeekBarChangeListener
 
-import com.zygne.confetti.engine.view.ExplosionSurface;
+class MainActivity : AppCompatActivity(), ExplosionSurface.Callback {
+    private var explosionSurface: ExplosionSurface? = null
+    private var particles = 0
+    private var wind = 0f
+    private var gravity = 0f
+    private lateinit var sbWind: SeekBar
+    private lateinit var sbGravity: SeekBar
+    private lateinit var sbParticles: SeekBar
+    private lateinit var tvParticleAmount: TextView
+    private lateinit var tvFps: TextView
+    private lateinit var btnEmitter: Button
+    private lateinit var btnExplosion: Button
 
-public class MainActivity extends AppCompatActivity implements
-        ExplosionSurface.Callback {
-
-    private ExplosionSurface explosionSurface;
-
-    private int particles;
-    private float wind;
-    private float gravity;
-
-    private SeekBar sbWind;
-    private SeekBar sbGravity;
-    private SeekBar sbParticles;
-    private TextView tvParticleAmount;
-    private TextView tvFps;
-    private Button btnEmitter;
-    private Button btnExplosion;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
         // Create the SurfaceViewThread object.
-        explosionSurface = new ExplosionSurface(getApplicationContext(), 256);
-        explosionSurface.setCallback(this);
+        explosionSurface = ExplosionSurface(applicationContext, 256)
+        explosionSurface!!.setCallback(this)
 
         // Get text drawing LinearLayout canvas.
-        LinearLayout container = findViewById(R.id.explosion_container);
+        val container = findViewById<LinearLayout>(R.id.explosion_container)
 
         // Add surfaceview object to the LinearLayout object.
-        container.addView(explosionSurface);
-
-        sbWind = findViewById(R.id.sb_wind);
-        sbWind.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-                setWind(progress);
+        container.addView(explosionSurface)
+        sbWind = findViewById(R.id.sb_wind)
+        sbWind.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                setWind(progress.toFloat())
             }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
-        });
-
-        sbGravity = findViewById(R.id.sb_gravity);
-        sbGravity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                setGravity(progress);
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
+        sbGravity = findViewById(R.id.sb_gravity)
+        sbGravity.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                setGravity(progress.toFloat())
             }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
-        });
-
-        sbParticles = findViewById(R.id.sb_particles);
-        sbParticles.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                updateParticles(progress);
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
+        sbParticles = findViewById(R.id.sb_particles)
+        sbParticles.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                updateParticles(progress)
             }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
-        });
-
-        tvParticleAmount = findViewById(R.id.tv_particle_amount);
-        tvFps = findViewById(R.id.tv_fps);
-
-        btnEmitter = findViewById(R.id.btn_emitter);
-        btnEmitter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                explosionSurface.resetExplosion(particles, 0);
-            }
-        });
-
-        btnExplosion = findViewById(R.id.btn_explosion);
-        btnExplosion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                explosionSurface.resetExplosion(particles, 1);
-            }
-        });
-
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
+        tvParticleAmount = findViewById(R.id.tv_particle_amount)
+        tvFps = findViewById(R.id.tv_fps)
+        btnEmitter = findViewById(R.id.btn_emitter)
+        btnEmitter.setOnClickListener {
+            explosionSurface!!.resetExplosion(
+                particles,
+                0
+            )
+        }
+        btnExplosion = findViewById(R.id.btn_explosion)
+        btnExplosion.setOnClickListener {
+            explosionSurface!!.resetExplosion(
+                particles,
+                1
+            )
+        }
     }
 
-    private void setGravity(float gravity) {
-        gravity = gravity - 50;
-        gravity = gravity * -1;
-        gravity = gravity / 200;
-        this.gravity = gravity;
-        explosionSurface.updateGravity(gravity);
+    private fun setGravity(gravity: Float) {
+        this.gravity = ((gravity - 50) * -1) / 200
+        explosionSurface!!.updateGravity(this.gravity)
     }
 
-    private void setWind(float wind) {
-        wind = wind - 50;
-        wind = wind * -1;
-        wind = wind / 200;
-        this.
-                explosionSurface.updateWind(wind);
+    private fun setWind(wind: Float) {
+        this.wind = ((wind - 50) * -1) / 200
+        explosionSurface!!.updateWind(this.wind)
     }
 
-    private void updateParticles(int amount) {
-        this.particles = amount;
-        explosionSurface.resetExplosion(amount);
-        tvParticleAmount.setText("" + amount);
+    private fun updateParticles(amount: Int) {
+        particles = amount
+        explosionSurface!!.resetExplosion(amount)
+        tvParticleAmount.text = "$amount"
     }
 
-    @Override
-    public void onFpsUpdate(final int fps) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                tvFps.setText("" + fps);
-            }
-        });
+    override fun onFpsUpdate(fps: Int) {
+        runOnUiThread { tvFps.text = "$fps" }
     }
 }

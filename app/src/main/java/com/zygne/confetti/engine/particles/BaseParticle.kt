@@ -8,12 +8,6 @@ import com.zygne.confetti.engine.math.Rectangle
 import com.zygne.confetti.engine.math.Vector2
 import com.zygne.confetti.engine.util.Randomizer
 
-/**
- * TODO define class.
- *
- * @author Bardur Thomsen
- * @version 1.0 04/09/2018.
- */
 abstract class BaseParticle : DynamicObject2d {
     @JvmField
     protected var paint : Paint? = null

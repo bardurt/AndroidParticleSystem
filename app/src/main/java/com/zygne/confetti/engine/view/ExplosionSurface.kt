@@ -14,9 +14,6 @@ import com.zygne.confetti.engine.physics.Physics
 import com.zygne.confetti.engine.util.FpsCounter
 import com.zygne.confetti.engine.view.ExplosionSurface
 
-/**
- * Created by Bardur Thomsen on 9/17/18.
- */
 class ExplosionSurface : SurfaceView, SurfaceHolder.Callback, Runnable {
     private var callback: Callback? = null
     private var surfaceHolder: SurfaceHolder?
@@ -132,7 +129,7 @@ class ExplosionSurface : SurfaceView, SurfaceHolder.Callback, Runnable {
     }
 
     companion object {
-        val TAG = ExplosionSurface::class.java.simpleName
+        const val TAG = "ExplosionSurface"
         const val DEFAULT_PARTICLE_NUMBER = 64
     }
 }

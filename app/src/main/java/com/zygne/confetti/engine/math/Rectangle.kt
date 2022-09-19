@@ -1,8 +1,5 @@
 package com.zygne.confetti.engine.math
 
-/**
- * Created by Bardur Thomsen on 9/27/18.
- */
 class Rectangle(x: Float, y: Float, width: Float, height: Float) {
 
     private val lowerLeft: Vector2

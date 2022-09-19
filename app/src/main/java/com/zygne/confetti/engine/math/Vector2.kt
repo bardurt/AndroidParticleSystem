@@ -1,8 +1,5 @@
 package com.zygne.confetti.engine.math
 
-/**
- * Created by Bardur Thomsen on 9/27/18.
- */
 class Vector2 {
     var x = 0f
         private set
