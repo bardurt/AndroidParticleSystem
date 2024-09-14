@@ -9,7 +9,6 @@ class FpsCounter {
     private var ifps = 0
     fun countFrames() {
         val now = System.currentTimeMillis()
-        println("FPS:$fps")
         ifps++
         if (now > mLastTime + 1000) {
             mLastTime = now

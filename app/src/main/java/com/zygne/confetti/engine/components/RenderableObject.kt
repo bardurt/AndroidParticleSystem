@@ -2,6 +2,6 @@ package com.zygne.confetti.engine.components
 
 import android.graphics.Canvas
 
-interface RendableObject {
+interface RenderableObject {
     fun render(canvas: Canvas)
 }

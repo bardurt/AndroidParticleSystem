@@ -6,14 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:background="@android:color/black"
     android:orientation="vertical"
+    android:paddingTop="@dimen/padding_extra_small"
     tools:context=".MainActivity">
-
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Wind"/>
+        android:textColor="@android:color/white"
+        android:text="@string/title_wind"/>
 
     <SeekBar
         android:id="@+id/sb_wind"
@@ -25,7 +27,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gravity"/>
+        android:textColor="@android:color/white"
+        android:text="@string/title_gravity"/>
 
     <SeekBar
         android:id="@+id/sb_gravity"
@@ -37,70 +40,85 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Particles"/>
+        android:textColor="@android:color/white"
+        android:text="@string/title_particles"/>
 
     <SeekBar
         android:id="@+id/sb_particles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="10000"
+        android:max="1000"
         android:progress="200"/>
 
     <TextView
         android:id="@+id/tv_particle_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
         android:text=""/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
 
-        <Button
-            android:id="@+id/btn_explosion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Explosion"/>
-
-        <Button
-            android:id="@+id/btn_emitter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Emitter"/>
-
-    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <LinearLayout
-            android:id="@+id/explosion_container"
+        <com.zygne.confetti.engine.view.ExplosionSurface
+            android:id="@+id/explosion_surface"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="@string/title_fps"/>
+
+            <TextView
+                android:id="@+id/tv_fps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="60"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/padding_large"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/btn_explosion"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/icon_bomb"
+                android:tint="@android:color/white" />
+
+            <Space
+                android:layout_width="@dimen/padding_large"
+                android:layout_height="0dp"/>
+
+            <ImageView
+                android:id="@+id/btn_emitter"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/icon_fireworks"
+                android:tint="@android:color/white"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="FPS: "/>
-
-        <TextView
-            android:id="@+id/tv_fps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""/>
-
-    </LinearLayout>
 
 </LinearLayout>

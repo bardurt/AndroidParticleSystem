@@ -8,41 +8,37 @@ import com.zygne.confetti.engine.math.Rectangle
 import com.zygne.confetti.engine.math.Vector2
 import com.zygne.confetti.engine.util.Randomizer
 
-abstract class BaseParticle : DynamicObject2d {
-    @JvmField
-    protected var paint : Paint? = null
+abstract class BaseParticle(x: Float, y: Float) : DynamicObject2d(x, y) {
+    lateinit var paint: Paint
     var state = STATE_ALIVE// particle is alive or dead = 0
     var age = 0// current age of the particle = 0
     var lifetime = DEFAULT_LIFETIME// particle dies when it reaches this value = 0
-    private var expansion = DEFAULT_EXPANSION // rate of expansion = 0f
-    private var alpha = 255 // alpha value of color
-    private var alphaRate = 1 // rate at which alpha value decreases = 0
-    private val fadeAlpha = true // should alpha value be reduced
-    private val shouldExpand = true
+    var expansion = DEFAULT_EXPANSION // rate of expansion = 0f
+    var alpha = 255 // alpha value of color
+    var alphaRate = 1 // rate at which alpha value decreases = 0
+    val fadeAlpha = true // should alpha value be reduced
+    val shouldExpand = true
 
-    constructor() {}
-    constructor(x: Float, y: Float) {
+    init {
         position = Vector2(x, y)
         bounds = Rectangle(x, y, 0f, 0f)
         velocity = Vector2()
         paint = Paint()
-        paint!!.color = Color.RED
-        init(x, y)
+        paint.color = Color.RED
+        setUp(x, y)
     }
 
-    constructor(x: Float, y: Float, width: Float, height: Float) : super(x, y, width, height) {
-        init(x, y)
-    }
-
-    private fun init(x: Float, y: Float) {
+    private fun setUp(x: Float, y: Float) {
         position!![x] = y
         state = STATE_ALIVE
-        val radius = Randomizer.roundInteger(1, MAX_DIMENSION)
+        val radius = Randomizer.randomInteger(1, MAX_DIMENSION)
         bounds!![x, y, radius.toFloat()] = radius.toFloat()
-        lifetime = DEFAULT_LIFETIME
+        lifetime = 120f
         age = 0
-        velocity = Vector2(Randomizer.roundDouble(0f, MAX_SPEED * 2.toFloat()) - MAX_SPEED,
-                Randomizer.roundDouble(0f, MAX_SPEED * 2.toFloat()) - MAX_SPEED)
+        velocity = Vector2(
+            Randomizer.randomDouble(0f, MAX_SPEED * 2.toFloat()) - MAX_SPEED,
+            Randomizer.randomDouble(0f, MAX_SPEED * 2.toFloat()) - MAX_SPEED
+        )
         alpha = 255
         alphaRate = ((alpha + 5) / lifetime).toInt()
         expansion = DEFAULT_EXPANSION
@@ -50,11 +46,8 @@ abstract class BaseParticle : DynamicObject2d {
         if (velocity!!.distSquared(0f, 0f) > MAX_SPEED * MAX_SPEED) {
             velocity!!.multiply(0.7f)
         }
-        randomizeColor()
-    }
 
-    fun setExpansion(expansion: Float) {
-        this.expansion = expansion
+        randomizeColor()
     }
 
     val isAlive: Boolean
@@ -63,8 +56,8 @@ abstract class BaseParticle : DynamicObject2d {
     val isDead: Boolean
         get() = state == STATE_DEAD
 
-    fun reset(x: Float, y: Float) {
-        init(x, y)
+    open fun reset(x: Float, y: Float) {
+        setUp(x, y)
     }
 
     override fun update(dt: Float) {
@@ -79,12 +72,17 @@ abstract class BaseParticle : DynamicObject2d {
             if (alpha < 10) {
                 state = STATE_DEAD
             }
-            paint!!.alpha = alpha
+            paint.alpha = alpha
         }
     }
 
-    private fun randomizeColor() {
-        paint?.setARGB(255, Randomizer.roundInteger(0, 255), Randomizer.roundInteger(0, 255), Randomizer.roundInteger(0, 255))
+    open fun randomizeColor() {
+        paint.setARGB(
+            255,
+            Randomizer.randomInteger(0, 255),
+            Randomizer.randomInteger(0, 255),
+            Randomizer.randomInteger(0, 255)
+        )
     }
 
     override fun render(canvas: Canvas) {
@@ -99,4 +97,6 @@ abstract class BaseParticle : DynamicObject2d {
         const val MAX_SPEED = 8 // maximum speed (per update)
         const val DEFAULT_EXPANSION = 1.01f
     }
+
+
 }

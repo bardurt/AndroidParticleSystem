@@ -1,40 +1,39 @@
 package com.zygne.confetti
 
-import android.support.v7.app.AppCompatActivity
-import com.zygne.confetti.engine.view.ExplosionSurface
-import android.widget.SeekBar
-import android.widget.TextView
 import android.os.Bundle
+import android.support.v7.app.ActionBar
+import android.support.v7.app.AppCompatActivity
 import android.widget.Button
-import android.widget.LinearLayout
+import android.widget.ImageView
+import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
+import android.widget.TextView
+import com.zygne.confetti.engine.view.ExplosionSurface
 
 class MainActivity : AppCompatActivity(), ExplosionSurface.Callback {
     private var explosionSurface: ExplosionSurface? = null
-    private var particles = 0
+    private var particles = 32
     private var wind = 0f
     private var gravity = 0f
+    private var type = 1;
     private lateinit var sbWind: SeekBar
     private lateinit var sbGravity: SeekBar
     private lateinit var sbParticles: SeekBar
     private lateinit var tvParticleAmount: TextView
     private lateinit var tvFps: TextView
-    private lateinit var btnEmitter: Button
-    private lateinit var btnExplosion: Button
+    private lateinit var btnEmitter: ImageView
+    private lateinit var btnExplosion: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        // Create the SurfaceViewThread object.
-        explosionSurface = ExplosionSurface(applicationContext, 256)
+        val actionBar: ActionBar? = supportActionBar
+        actionBar?.hide()
+        explosionSurface = findViewById(R.id.explosion_surface);
         explosionSurface!!.setCallback(this)
+        tvParticleAmount = findViewById(R.id.tv_particle_amount)
+        tvFps = findViewById(R.id.tv_fps)
 
-        // Get text drawing LinearLayout canvas.
-        val container = findViewById<LinearLayout>(R.id.explosion_container)
-
-        // Add surfaceview object to the LinearLayout object.
-        container.addView(explosionSurface)
         sbWind = findViewById(R.id.sb_wind)
         sbWind.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
@@ -62,22 +61,24 @@ class MainActivity : AppCompatActivity(), ExplosionSurface.Callback {
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
         })
-        tvParticleAmount = findViewById(R.id.tv_particle_amount)
-        tvFps = findViewById(R.id.tv_fps)
+        sbParticles.progress = particles
+
         btnEmitter = findViewById(R.id.btn_emitter)
         btnEmitter.setOnClickListener {
+            type = 0
             explosionSurface!!.resetExplosion(
                 particles,
-                0
+                type
             )
             explosionSurface!!.updateGravity(this.gravity)
             explosionSurface!!.updateWind(this.wind)
         }
         btnExplosion = findViewById(R.id.btn_explosion)
         btnExplosion.setOnClickListener {
+            type = 1
             explosionSurface!!.resetExplosion(
                 particles,
-                1
+                type
             )
             explosionSurface!!.updateGravity(this.gravity)
             explosionSurface!!.updateWind(this.wind)
@@ -96,7 +97,7 @@ class MainActivity : AppCompatActivity(), ExplosionSurface.Callback {
 
     private fun updateParticles(amount: Int) {
         particles = amount
-        explosionSurface!!.resetExplosion(amount)
+        explosionSurface!!.resetExplosion(amount, type)
         tvParticleAmount.text = "$amount"
     }
 
