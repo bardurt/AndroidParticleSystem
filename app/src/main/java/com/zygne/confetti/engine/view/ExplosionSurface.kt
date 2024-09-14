@@ -12,10 +12,12 @@ import com.zygne.confetti.engine.explosions.BaseExplosion
 import com.zygne.confetti.engine.explosions.Emitter
 import com.zygne.confetti.engine.explosions.Explosion
 import com.zygne.confetti.engine.explosions.Fire
+import com.zygne.confetti.engine.particles.BaseParticle
 import com.zygne.confetti.engine.physics.Physics
 import com.zygne.confetti.engine.util.FpsCounter
 
-class ExplosionSurface(context: Context?, attributeSet: AttributeSet?) : SurfaceView(context, attributeSet), SurfaceHolder.Callback, Runnable {
+class ExplosionSurface(context: Context?, attributeSet: AttributeSet?) :
+    SurfaceView(context, attributeSet), SurfaceHolder.Callback, Runnable {
     private var callback: Callback? = null
     private var surfaceHolder: SurfaceHolder?
     private var thread: Thread? = null
@@ -43,7 +45,12 @@ class ExplosionSurface(context: Context?, attributeSet: AttributeSet?) : Surface
         running = true
         screenHeight = height
         screenWidth = width
-        explosion = Explosion((screenWidth / 2).toFloat(), (screenHeight / 2).toFloat(), particles)
+        explosion = Explosion(
+            (screenWidth / 2).toFloat(),
+            (screenHeight / 2).toFloat(),
+            particles,
+            BaseParticle.DEFAULT_MAX_SPEED
+        )
         explosion!!.physics = Physics(0f, 0f, 1f)
         Log.d(TAG, explosion.toString())
     }
@@ -81,12 +88,12 @@ class ExplosionSurface(context: Context?, attributeSet: AttributeSet?) : Surface
         this.callback = callback
     }
 
-    fun resetExplosion(particles: Int, type: Int) {
+    fun resetExplosion(particles: Int, type: Int, speed: Int) {
         this.particles = particles
         explosion = if (type == 1) {
-            Explosion((screenWidth / 2).toFloat(), (screenHeight / 2).toFloat(), particles)
+            Explosion((screenWidth / 2).toFloat(), (screenHeight / 2).toFloat(), particles, speed)
         } else {
-            Emitter((screenWidth / 2).toFloat(), (screenHeight / 2).toFloat(), particles)
+            Emitter((screenWidth / 2).toFloat(), (screenHeight / 2).toFloat(), particles, speed)
         }
         explosion!!.physics = Physics(0f, 0f, 1f)
     }

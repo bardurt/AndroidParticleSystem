@@ -51,12 +51,17 @@
         android:progress="200"/>
 
     <TextView
-        android:id="@+id/tv_particle_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
-        android:text=""/>
+        android:text="@string/title_velocity"/>
 
+    <SeekBar
+        android:id="@+id/sb_velocity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="50"
+        android:progress="10"/>
 
 
     <RelativeLayout

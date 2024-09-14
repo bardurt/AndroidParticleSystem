@@ -8,8 +8,13 @@ import com.zygne.confetti.engine.math.Rectangle
 import com.zygne.confetti.engine.math.Vector2
 import com.zygne.confetti.engine.util.Randomizer
 
-abstract class BaseParticle(x: Float, y: Float) : DynamicObject2d(x, y) {
-    lateinit var paint: Paint
+abstract class BaseParticle(
+    x: Float,
+    y: Float,
+    val maxSpeed: Int = DEFAULT_MAX_SPEED
+) :
+    DynamicObject2d(x, y) {
+    var paint: Paint
     var state = STATE_ALIVE// particle is alive or dead = 0
     var age = 0// current age of the particle = 0
     var lifetime = DEFAULT_LIFETIME// particle dies when it reaches this value = 0
@@ -36,14 +41,14 @@ abstract class BaseParticle(x: Float, y: Float) : DynamicObject2d(x, y) {
         lifetime = 120f
         age = 0
         velocity = Vector2(
-            Randomizer.randomDouble(0f, MAX_SPEED * 2.toFloat()) - MAX_SPEED,
-            Randomizer.randomDouble(0f, MAX_SPEED * 2.toFloat()) - MAX_SPEED
+            Randomizer.randomDouble(0f, maxSpeed * 2.toFloat()) - maxSpeed,
+            Randomizer.randomDouble(0f, maxSpeed * 2.toFloat()) - maxSpeed
         )
         alpha = 255
         alphaRate = ((alpha + 5) / lifetime).toInt()
         expansion = DEFAULT_EXPANSION
         // smoothing out the diagonal speed
-        if (velocity!!.distSquared(0f, 0f) > MAX_SPEED * MAX_SPEED) {
+        if (velocity!!.distSquared(0f, 0f) > maxSpeed * maxSpeed) {
             velocity!!.multiply(0.7f)
         }
 
@@ -94,7 +99,7 @@ abstract class BaseParticle(x: Float, y: Float) : DynamicObject2d(x, y) {
         const val STATE_DEAD = 1 // particle is dead
         const val DEFAULT_LIFETIME = 80f // default lifetime for a particle
         const val MAX_DIMENSION = 8 // the maximum width or height
-        const val MAX_SPEED = 8 // maximum speed (per update)
+        const val DEFAULT_MAX_SPEED = 8 // maximum speed (per update)
         const val DEFAULT_EXPANSION = 1.01f
     }
 

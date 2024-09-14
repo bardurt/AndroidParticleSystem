@@ -5,7 +5,8 @@ import com.zygne.confetti.engine.components.DynamicObject2d
 import com.zygne.confetti.engine.particles.BaseParticle
 import com.zygne.confetti.engine.particles.CircularParticle
 
-class Emitter(x: Float, y: Float, var particleNr: Int) : BaseExplosion(x, y, particleNr) {
+class Emitter(x: Float, y: Float, var particleNr: Int, var speed: Int) :
+    BaseExplosion(x, y, particleNr) {
     private val minSize = 10
     private var maxSize = 100
     private var size: Int
@@ -18,7 +19,7 @@ class Emitter(x: Float, y: Float, var particleNr: Int) : BaseExplosion(x, y, par
         }
         particles = arrayOfNulls(particleNr)
         for (i in 0 until minSize) {
-            val p: BaseParticle = CircularParticle(x, y)
+            val p: BaseParticle = CircularParticle(x, y, speed)
             particles[i] = p
         }
         size = minSize
@@ -47,7 +48,7 @@ class Emitter(x: Float, y: Float, var particleNr: Int) : BaseExplosion(x, y, par
         if (size < maxSize) {
             for (i in 0..4) {
                 if (size < maxSize) {
-                    val p: BaseParticle = CircularParticle(position!!.x, position!!.y)
+                    val p: BaseParticle = CircularParticle(position!!.x, position!!.y, speed)
                     particles[size] = p
                     size++
                 }

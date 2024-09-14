@@ -4,7 +4,9 @@ import com.zygne.confetti.engine.components.DynamicObject2d
 import com.zygne.confetti.engine.particles.BaseParticle
 import com.zygne.confetti.engine.physics.Physics
 
-abstract class BaseExplosion(x: Float, y: Float, protected val numberOfParticles: Int) : DynamicObject2d(x, y) {
+abstract class BaseExplosion(x: Float,
+                             y: Float,
+                             protected val numberOfParticles: Int) : DynamicObject2d(x, y) {
 
     @JvmField
     var state = 0

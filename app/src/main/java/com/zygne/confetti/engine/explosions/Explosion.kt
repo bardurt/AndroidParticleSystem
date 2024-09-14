@@ -5,7 +5,8 @@ import com.zygne.confetti.engine.components.DynamicObject2d
 import com.zygne.confetti.engine.particles.BaseParticle
 import com.zygne.confetti.engine.particles.CircularParticle
 
-class Explosion(x: Float, y: Float, particleNr: Int) : BaseExplosion(x, y, particleNr) {
+class Explosion(x: Float, y: Float, particleNr: Int, var speed: Int) :
+    BaseExplosion(x, y, particleNr) {
 
     override fun update(deltaTime: Float) {
         if (state != STATE_DEAD) {
@@ -43,7 +44,7 @@ class Explosion(x: Float, y: Float, particleNr: Int) : BaseExplosion(x, y, parti
         state = STATE_ALIVE
         particles = arrayOfNulls(particleNr)
         for (i in particles.indices) {
-            val p: BaseParticle = CircularParticle(x, y)
+            val p: BaseParticle = CircularParticle(x, y, speed)
             particles[i] = p
         }
     }

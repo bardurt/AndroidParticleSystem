@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
+import com.zygne.confetti.engine.particles.BaseParticle
 import com.zygne.confetti.engine.view.ExplosionSurface
 
 class MainActivity : AppCompatActivity(), ExplosionSurface.Callback {
@@ -16,10 +17,11 @@ class MainActivity : AppCompatActivity(), ExplosionSurface.Callback {
     private var wind = 0f
     private var gravity = 0f
     private var type = 1;
+    private var speed = 8
     private lateinit var sbWind: SeekBar
     private lateinit var sbGravity: SeekBar
     private lateinit var sbParticles: SeekBar
-    private lateinit var tvParticleAmount: TextView
+    private lateinit var sbVelocity: SeekBar
     private lateinit var tvFps: TextView
     private lateinit var btnEmitter: ImageView
     private lateinit var btnExplosion: ImageView
@@ -31,7 +33,6 @@ class MainActivity : AppCompatActivity(), ExplosionSurface.Callback {
         actionBar?.hide()
         explosionSurface = findViewById(R.id.explosion_surface);
         explosionSurface!!.setCallback(this)
-        tvParticleAmount = findViewById(R.id.tv_particle_amount)
         tvFps = findViewById(R.id.tv_fps)
 
         sbWind = findViewById(R.id.sb_wind)
@@ -55,7 +56,8 @@ class MainActivity : AppCompatActivity(), ExplosionSurface.Callback {
         sbParticles = findViewById(R.id.sb_particles)
         sbParticles.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                updateParticles(progress)
+                particles = progress
+                updateParticles()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -63,12 +65,25 @@ class MainActivity : AppCompatActivity(), ExplosionSurface.Callback {
         })
         sbParticles.progress = particles
 
+        sbVelocity = findViewById(R.id.sb_velocity)
+        sbVelocity.progress = speed
+        sbVelocity.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                speed = progress
+                updateParticles()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
+
         btnEmitter = findViewById(R.id.btn_emitter)
         btnEmitter.setOnClickListener {
             type = 0
             explosionSurface!!.resetExplosion(
                 particles,
-                type
+                type,
+                speed
             )
             explosionSurface!!.updateGravity(this.gravity)
             explosionSurface!!.updateWind(this.wind)
@@ -78,7 +93,8 @@ class MainActivity : AppCompatActivity(), ExplosionSurface.Callback {
             type = 1
             explosionSurface!!.resetExplosion(
                 particles,
-                type
+                type,
+                speed
             )
             explosionSurface!!.updateGravity(this.gravity)
             explosionSurface!!.updateWind(this.wind)
@@ -95,10 +111,9 @@ class MainActivity : AppCompatActivity(), ExplosionSurface.Callback {
         explosionSurface!!.updateWind(this.wind)
     }
 
-    private fun updateParticles(amount: Int) {
-        particles = amount
-        explosionSurface!!.resetExplosion(amount, type)
-        tvParticleAmount.text = "$amount"
+    private fun updateParticles() {
+        explosionSurface!!.resetExplosion(particles, type, speed)
+
     }
 
     override fun onFpsUpdate(fps: Int) {
