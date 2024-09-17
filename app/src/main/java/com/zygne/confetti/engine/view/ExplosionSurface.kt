@@ -95,7 +95,7 @@ class ExplosionSurface(context: Context?, attributeSet: AttributeSet?) :
         } else {
             Emitter((screenWidth / 2).toFloat(), (screenHeight / 2).toFloat(), particles, speed)
         }
-        explosion!!.physics = Physics(0f, 0f, 1f)
+        explosion!!.physics = Physics(0f, 0f, 1.00f)
     }
 
     fun updateWind(wind: Float) {
